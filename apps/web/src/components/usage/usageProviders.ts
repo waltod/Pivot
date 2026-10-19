@@ -1,13 +1,13 @@
 import type { UsageProviderKind } from "@t3tools/contracts";
 
-import { ClaudeAI, CursorIcon, type Icon, OpenAI } from "../Icons";
+import { ClaudeAI, OmpIcon, type Icon, OpenAI } from "../Icons";
 
 /**
  * Series and table order. The chart layers providers from a shared zero
  * baseline, so this only fixes the reading order of legends, tables and hover
  * rows; it does not decide which series sits above the other.
  */
-export const PROVIDER_ORDER: readonly UsageProviderKind[] = ["omp"];
+export const PROVIDER_ORDER: readonly UsageProviderKind[] = ["omp", "claude"];
 
 export const PROVIDER_LABEL: Record<UsageProviderKind, string> = {
   omp: "omp",
@@ -22,14 +22,9 @@ export const PROVIDER_COLOR: Record<UsageProviderKind, string> = {
   codex: "#e6e6e6",
 };
 
-/**
- * Brand marks for the usage legend.
- *
- * omp has no dedicated mark in the picker yet; Cursor's mark stands in as the
- * host agent glyph until one ships.
- */
+/** Brand marks for the usage legend. */
 export const PROVIDER_MARK: Record<UsageProviderKind, Icon> = {
-  omp: CursorIcon,
+  omp: OmpIcon,
   claude: ClaudeAI,
   codex: OpenAI,
 };

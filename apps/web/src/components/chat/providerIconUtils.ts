@@ -1,9 +1,10 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
-import { Icon, OpenCodeIcon } from "../Icons";
+import { ClaudeAI, Icon, OmpIcon } from "../Icons";
 import { PROVIDER_OPTIONS } from "../../session-logic";
 
 export const PROVIDER_ICON_BY_PROVIDER: Partial<Record<ProviderDriverKind, Icon>> = {
-  [ProviderDriverKind.make("omp")]: OpenCodeIcon,
+  [ProviderDriverKind.make("omp")]: OmpIcon,
+  [ProviderDriverKind.make("claudeAgent")]: ClaudeAI,
 };
 
 function isAvailableProviderOption(option: (typeof PROVIDER_OPTIONS)[number]): option is {

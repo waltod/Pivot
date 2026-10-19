@@ -1,8 +1,8 @@
 # Pivot
 
-**T3.14 — [T3 Code](https://github.com/pingdotgg/t3code), pivoted to omp (π).**
+**T3.14 — [T3 Code](https://github.com/pingdotgg/t3code), with omp and Claude Code.**
 
-Pivot is a fork of T3 Code: an agent harness control surface (desktop, web, and remote clients) with a Node WebSocket server on your machine. Upstream talks to several provider CLIs. This fork talks to one: [omp](https://omp.sh) (oh-my-pi) over `omp --mode rpc`.
+Pivot is a fork of T3 Code: an agent harness control surface (desktop, web, and remote clients) with a Node WebSocket server on your machine. Upstream talks to several provider CLIs. This fork supports [omp](https://omp.sh) (oh-my-pi) over `omp --mode rpc` and Claude Code through the Claude Agent SDK. Both agents run on the server, including when you connect over SSH.
 
 <img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/dd8d5880-b279-44c9-947b-332755e81ccf" />
 
@@ -10,12 +10,16 @@ CLI package: [`pivot-cli`](https://www.npmjs.com/package/pivot-cli) (bin: `pivot
 
 ## What changed from T3 Code
 
-- **omp only**
+- **omp and Claude Code**
 - Managed omp install and Settings login for omp accounts
 - Published as `pivot-cli` instead of `t3`
 - Heavily modified to work with omp and its plugins and functionality. The goal of being a wrapper around it surfacing its functionality into UI
 
 Credit for the architecture, clients, and product taste goes to the T3 Code maintainers. Pivot is an independent fork.
+
+## This fork
+
+The npm package and upstream desktop releases below are published by 13kparkin and do not contain this fork's Claude Code integration. Build this branch from source; see [running the fork over SSH](./docs/operations/claude-ssh.md).
 
 ## Installation
 
@@ -48,6 +52,7 @@ Docs live in [docs/](./docs). There is no separate docs site yet.
 
 - [Install and first run](./docs/user/install.md)
 - [omp provider](./docs/user/providers-omp.md)
+- [Claude Code provider](./docs/user/providers-claude.md)
 - [Permission modes](./docs/user/permission-modes.md)
 - [Keyboard shortcuts](./docs/user/keybindings.md)
 - [Customize a project icon](./docs/user/project-settings.md)

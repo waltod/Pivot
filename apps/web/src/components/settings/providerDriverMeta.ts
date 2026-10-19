@@ -1,6 +1,6 @@
-import { OmpSettings, ProviderDriverKind } from "@t3tools/contracts";
+import { ClaudeSettings, OmpSettings, ProviderDriverKind } from "@t3tools/contracts";
 import type * as Schema from "effect/Schema";
-import { OpenCodeIcon, type Icon } from "../Icons";
+import { ClaudeAI, OmpIcon, type Icon } from "../Icons";
 
 type ProviderSettingsSchema = {
   readonly fields: Readonly<Record<string, Schema.Top>>;
@@ -29,9 +29,15 @@ export interface ProviderClientDefinition {
 
 export const PROVIDER_CLIENT_DEFINITIONS: readonly ProviderClientDefinition[] = [
   {
+    value: ProviderDriverKind.make("claudeAgent"),
+    label: "Claude Code",
+    icon: ClaudeAI,
+    settingsSchema: ClaudeSettings,
+  },
+  {
     value: ProviderDriverKind.make("omp"),
     label: "omp",
-    icon: OpenCodeIcon,
+    icon: OmpIcon,
     settingsSchema: OmpSettings,
   },
 ];

@@ -79,7 +79,10 @@ describe("buildDayColumns", () => {
     // absolute so a later provider is not forced above an earlier one.
     const [first] = buildDayColumns(days, byDay, "cost");
 
-    expect(first?.bands).toEqual([{ provider: "omp", value: 30 }]);
+    expect(first?.bands).toEqual([
+      { provider: "omp", value: 30 },
+      { provider: "claude", value: 0 },
+    ]);
   });
 
   it("reports the total as the sum of its bands", () => {
@@ -87,6 +90,29 @@ describe("buildDayColumns", () => {
       const sum = column.bands.reduce((running, band) => running + band.value, 0);
       expect(column.total).toBeCloseTo(sum, 9);
     }
+  });
+
+  it("includes Claude usage alongside omp", () => {
+    const mixed = new Map([
+      [
+        days[0]!,
+        {
+          day: days[0]!,
+          costUsd: 7,
+          totalTokens: 70,
+          byProvider: new Map<"omp" | "claude", { costUsd: number; totalTokens: number }>([
+            ["omp", { costUsd: 3, totalTokens: 30 }],
+            ["claude", { costUsd: 4, totalTokens: 40 }],
+          ]),
+        },
+      ],
+    ]);
+    const [column] = buildDayColumns([days[0]!], mixed, "cost");
+    expect(column?.total).toBe(7);
+    expect(column?.bands).toEqual([
+      { provider: "omp", value: 3 },
+      { provider: "claude", value: 4 },
+    ]);
   });
 });
 

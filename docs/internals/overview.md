@@ -18,12 +18,12 @@ there, never in the client.
 ┌──────────────────▼─────────────────────────────┐
 │ apps/server                                    │
 │  orchestration engine (event-sourced)          │
-│  provider driver registry (1 driver: omp)      │
+│  provider driver registry (omp, Claude Code)      │
 │  checkpointing, VCS, terminals, filesystem     │
 └──────────────────┬─────────────────────────────┘
                    │ per-driver transport
 ┌──────────────────▼─────────────────────────────┐
-│ Agent CLI: omp                                 │
+│ Agent CLIs: omp, Claude Code                    │
 └────────────────────────────────────────────────┘
 ```
 

@@ -6,6 +6,7 @@ import {
   ClientSettingsSchema,
   ClientSettingsPatch,
   DEFAULT_SERVER_SETTINGS,
+  ClaudeSettings,
   OmpSettings,
   ServerSettings,
   ServerSettingsPatch,
@@ -16,6 +17,31 @@ const decodeClientSettingsPatch = Schema.decodeUnknownSync(ClientSettingsPatch);
 const decodeServerSettings = Schema.decodeUnknownSync(ServerSettings);
 const decodeServerSettingsPatch = Schema.decodeUnknownSync(ServerSettingsPatch);
 const encodeServerSettings = Schema.encodeSync(ServerSettings);
+const decodeClaudeSettings = Schema.decodeSync(ClaudeSettings);
+
+describe("Claude Code settings alongside OMP", () => {
+  it("bootstraps both drivers without discarding either configuration", () => {
+    const decoded = decodeServerSettings({
+      providers: {
+        claudeAgent: { binaryPath: "/usr/bin/claude", homePath: "/home/dev/.claude" },
+        omp: { binaryPath: "/home/dev/.bun/bin/omp", rolePlan: "anthropic/claude-sonnet-5" },
+      },
+    });
+    expect(decoded.providers.claudeAgent.binaryPath).toBe("/usr/bin/claude");
+    expect(decoded.providers.claudeAgent.homePath).toBe("/home/dev/.claude");
+    expect(decoded.providers.omp.rolePlan).toBe("anthropic/claude-sonnet-5");
+    expect(decodeClaudeSettings({}).enabled).toBe(true);
+    expect(decodeServerSettings({}).providers.omp.enabled).toBe(true);
+  });
+
+  it("accepts a Claude patch without changing OMP settings", () => {
+    const patch = decodeServerSettingsPatch({
+      providers: { claudeAgent: { binaryPath: "  /usr/bin/claude  ", enabled: false } },
+    });
+    expect(patch.providers?.claudeAgent).toEqual({ binaryPath: "/usr/bin/claude", enabled: false });
+    expect(patch.providers?.omp).toBeUndefined();
+  });
+});
 
 describe("ClientSettings word wrap", () => {
   it("defaults word wrap on", () => {

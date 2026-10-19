@@ -33,7 +33,10 @@ export const PROVIDER_OPTIONS: Array<{
   available: boolean;
   /** Shown on the model picker sidebar when relevant */
   pickerSidebarBadge?: "new" | "soon";
-}> = [{ value: ProviderDriverKind.make("omp"), label: "omp", available: true }];
+}> = [
+  { value: ProviderDriverKind.make("omp"), label: "omp", available: true },
+  { value: ProviderDriverKind.make("claudeAgent"), label: "Claude Code", available: true },
+];
 
 export type WorkLogToolLifecycleStatus =
   | "inProgress"
