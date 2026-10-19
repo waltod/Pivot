@@ -64,7 +64,32 @@ export class OmpCatalogDecoder {
         slug,
         name,
         isCustom: false,
-        capabilities: null,
+        // OMP bakes the supported ladder into each model. Do not infer it
+        // from model names: custom providers can expose different efforts.
+        capabilities:
+          entry.reasoning === true &&
+          isRecord(entry.thinking) &&
+          Array.isArray(entry.thinking.efforts) &&
+          entry.thinking.efforts.length > 0 &&
+          entry.thinking.efforts.every(
+            (effort) =>
+              typeof effort === "string" &&
+              ["minimal", "low", "medium", "high", "xhigh", "max"].includes(effort),
+          )
+            ? {
+                optionDescriptors: [
+                  {
+                    id: "effort",
+                    label: "Effort",
+                    type: "select",
+                    options: ["off", ...new Set<string>(entry.thinking.efforts)].map((id) => ({
+                      id,
+                      label: id === "xhigh" ? "Extra high" : id[0]!.toUpperCase() + id.slice(1),
+                    })),
+                  },
+                ],
+              }
+            : null,
       });
     }
     return Effect.succeed(models);

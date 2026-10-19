@@ -33,3 +33,5 @@ node apps/server/dist/bin.mjs pair --base-dir "$PWD/.remote-runtime"
 The built-in desktop SSH launcher normally downloads the published npm package. Until this fork is published, use the forwarded web UI for this build. A desktop development checkout can instead set `T3CODE_DEV_REMOTE_T3_SERVER_ENTRY_PATH` to the remote absolute path of this build's `apps/server/dist/bin.mjs`; that override applies only in development.
 
 If dependency install scripts were disabled, rebuild node-pty before starting the server. Normal `vp i` runs the required native build scripts.
+
+OMP effort discovery was verified against oh-my-pi v18.12.2, commit `1d5aff90b057ce7dbfe32ea557a527c1b3144b72`: `get_available_models` returns baked `reasoning` and `thinking.efforts` metadata; the RPC thinking-level selector permits `off` plus those efforts. Pivot sends selected effort through `set_thinking_level` before the prompt. The `enabledModels` configuration filters both discovery and RPC model selection; it is not merely a client-side filter.

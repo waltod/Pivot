@@ -58,6 +58,47 @@ const expectRequestError = (error: unknown, method: string, detail: string) => {
 
 describe("OmpCatalogDecoder", () => {
   describe("decodeModels", () => {
+    it.effect("exposes the model's supported thinking efforts to every client", () =>
+      Effect.gen(function* () {
+        const models = yield* new OmpCatalogDecoder().decodeModels(
+          CatalogRpcFixture.modelsResponse([
+            CatalogRpcFixture.model({
+              provider: "lb-go",
+              reasoning: true,
+              thinking: { efforts: ["low", "high", "xhigh"] },
+            }),
+          ]),
+        );
+        expect(models[0]?.capabilities?.optionDescriptors).toEqual([
+          {
+            id: "effort",
+            label: "Effort",
+            type: "select",
+            options: [
+              { id: "off", label: "Off" },
+              { id: "low", label: "Low" },
+              { id: "high", label: "High" },
+              { id: "xhigh", label: "Extra high" },
+            ],
+          },
+        ]);
+      }),
+    );
+
+    it.effect("does not invent effort controls for missing or invalid model metadata", () =>
+      Effect.gen(function* () {
+        const models = yield* new OmpCatalogDecoder().decodeModels(
+          CatalogRpcFixture.modelsResponse([
+            CatalogRpcFixture.model({ reasoning: true }),
+            CatalogRpcFixture.model({ reasoning: false, thinking: { efforts: ["low"] } }),
+            CatalogRpcFixture.model({ reasoning: true, thinking: { efforts: [] } }),
+            CatalogRpcFixture.model({ reasoning: true, thinking: { efforts: ["unknown"] } }),
+          ]),
+        );
+        expect(models.every((model) => model.capabilities === null)).toBe(true);
+      }),
+    );
+
     it.effect(
       "Given padded provider and id, When decodeModels runs, Then the slug is trimmed provider/id",
       () =>

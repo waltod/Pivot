@@ -103,10 +103,9 @@ describe("buildTraitsTriggerDisplay", () => {
     });
   });
 
-  it("stays blank when descriptors resolve to no label and there is no fast mode", () => {
-    // A select with neither a currentValue nor an isDefault option yields no
-    // label. Without a fastMode descriptor present that must stay blank rather
-    // than falling through to a bogus "Normal".
+  it("shows the option name when no effort has been selected", () => {
+    // A runtime-managed default can have no currentValue or isDefault option.
+    // Keep its control discoverable without claiming a selected effort.
     const unresolved: Extract<ProviderOptionDescriptor, { type: "select" }> = {
       id: "effort",
       label: "effort",
@@ -116,7 +115,7 @@ describe("buildTraitsTriggerDisplay", () => {
         { id: "high", label: "High" },
       ],
     };
-    expect(display([unresolved])).toEqual({ label: "", showFastModeIcon: false });
+    expect(display([unresolved])).toEqual({ label: "effort", showFastModeIcon: false });
   });
 
   it("still renders the prompt-controlled ultrathink label alongside the bolt", () => {

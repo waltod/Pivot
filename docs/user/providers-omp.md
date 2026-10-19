@@ -17,6 +17,10 @@ Unsupported hosts (for example linux musl on arm64 for rtk) fail Install with a 
 
 ## Settings
 
+The composer shows an **Effort** menu beside the model for models that advertise controllable thinking. Its choices come from omp's model metadata, so they can differ between models. Select a level to apply it to your next turn.
+
+To restrict the models offered by omp, run `omp config set enabledModels '["lb-go/*"]'` on the server and restart Pivot. Reset the restriction with `omp config reset enabledModels` and restart again.
+
 | Field                                         | Purpose                                                                   |
 | --------------------------------------------- | ------------------------------------------------------------------------- |
 | Binary path                                   | Path to `omp` when it is not on PATH                                      |
